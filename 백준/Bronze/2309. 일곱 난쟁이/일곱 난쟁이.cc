@@ -1,43 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> keys, res;
-int a, n = 9, r = 7;
-void combi(int s, vector<int> v) {
-  if (v.size() == r){
-    int acc = 0;
-    for (int a: v) {
-      acc += keys[a];
-    }
-        
-    if(acc == 100){
-      for(int a : v){
-        res.push_back(keys[a]);
-      }
-      sort(res.begin(), res.end());
-      for(int a: res){
-        cout << a << '\n';
-      }
-      exit(0);
-    }
-    return;
-  }
+vector<int> v(9, 0);
+int acc, n = 9, r = 7;
 
-  for(int i = s + 1; i < n; i++){
-    v.push_back(i);
-    combi(i, v);
-    v.pop_back();
+void print(vector<int> &v) {
+  for(int i = 0; i < r; i++) {
+    cout << v[i] << '\n';
   }
-  return;
 }
 
-int main(){
-  for(int i = 0; i < n; i++){
-    cin >> a;
-    keys.push_back(a);
+int main() {
+  for(int i = 0; i < n; i++) {
+    cin >> v[i];
   }
 
-  vector<int> v;
-  combi(-1, v);
-  return 0;
+  sort(v.begin(), v.end());
+  do {
+    acc = 0;
+    for(int i = 0; i < r; i++) {
+      acc += v[i];
+    }
+    if (acc == 100) {
+      print(v);
+      exit(0);
+    }
+  } while(next_permutation(v.begin(), v.end()));
 }
