@@ -1,17 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-string s, alpha = "abcdefghijklmnopqrstuvwxyz";
-map<char, int> mp;
-int cnt;
-
+string str;
+int cnt[26];
 int main() {
-  cin >> s;
-  sort(s.begin(), s.end());
+  cin >> str;
 
-  for(char a : alpha) {
-    cnt = 0;
-    cnt = upper_bound(s.begin(), s.end(), a) - lower_bound(s.begin(), s.end(), a);
-    cout << cnt << ' '; 
-  }
+  for (char c : str) cnt[c - 'a']++;
+
+  for (int i = 0; i < 26; i++) cout << cnt[i] << ' ';
+  return 0;
 }
