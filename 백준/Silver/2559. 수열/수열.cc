@@ -1,27 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, K, sum, mx, a;
-vector<int> arr;
+int N, K, temp, psum[100001], res = -10000004; 
 
 int main() {
-  cin >> N;
-  cin >> K;
-  for(int i = 0; i < N; i++) {
-    cin >> a;
-    arr.push_back(a);
+  cin >> N >> K;
+  for (int i = 1; i < N + 1; i++) {
+    cin >> temp;
+    psum[i] = psum[i - 1] + temp;
   }
-
-  for(int i = 0; i < K; i++) { 
-    sum += arr[i];
+  for (int i = K; i <= N; i++) {
+    res = max(res, psum[i] - psum[i - K]);
   }
-  mx = sum;
-
-  for(int i = 0; i < arr.size() - K; i++) {
-    sum = sum - arr[i] + arr[i + K];
-    if(sum > mx) mx = sum; 
-  }
-  cout << mx;
+  cout << res;
   return 0;
 }
-
