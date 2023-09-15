@@ -1,35 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, pos;
-string target, patt , s, e;
+string target, patt, prefix, suffix;
+int idx, N;
 
 bool solve(){
-  for(int i = 0; i < s.size(); i++){
-    if (target[i] != s[i]) return false;
-  }
-  for(int i = 0; i < e.size(); i++){
-    if(target[target.size() - e.size() + i] != e[i]) return false;
-  }
-  return true;
+  if(prefix.size() + suffix.size() > target.size()) return false;
+  if((target.substr(0, prefix.size()) == prefix)&&(target.substr(target.size()-suffix.size())) == suffix) return true;
+  else return false;
 }
-
 int main(){
   cin >> N;
   cin >> patt;
-  pos = patt.find('*');
-  for(int i = 0; i < patt.size(); i++) {
-    if (i < pos) s += patt[i];
-    else if (i > pos) e += patt[i];
-    else ;
-  }
+  idx = patt.find('*');
+  prefix = patt.substr(0, idx);
+  suffix = patt.substr(idx + 1);
+
   for (int i = 0; i < N; i++){
     cin >> target;
-    if (patt.size() - 1 > target.size()) cout << "NE";
-    else {
-      if (solve()) cout << "DA";
-      else cout << "NE";
-    }
+    if (solve()) cout << "DA";
+    else cout << "NE";
     cout << '\n';
   }
   return 0;
