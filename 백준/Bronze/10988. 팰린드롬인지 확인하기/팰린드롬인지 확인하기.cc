@@ -1,12 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string str, reversedStr;
+string s, temp;
+
 int main() {
-  cin >> str;
-  reversedStr = str;
-  reverse(reversedStr.begin(), reversedStr.end());
-  if(str == reversedStr) cout << 1;
-  else cout << 0;
-  return 0;
+    cin >> s;
+    temp = s;
+    reverse(s.begin(), s.end());
+    if(s == temp) cout << 1;
+    else cout << 0;
+    return 0;
 }
