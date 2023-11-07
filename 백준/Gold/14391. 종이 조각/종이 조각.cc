@@ -35,13 +35,20 @@ int main() {
         // 비트마스킹으로 배열 만들기. 대칭된 배열도 함께 만든다.
         memset(vsted_a, 0, sizeof(vsted_a));
         memset(vsted_b, 0, sizeof(vsted_b));
-        for(int i = 0; i < n * m; i++) {
-            if(S & (1 << i)) {
-                vsted_a[n - (i / m) - 1][m - (i % m) - 1] = 1;
-            } else {
-                vsted_b[m - (i % m) - 1][n - (i / m) - 1] = 1;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                int k = i * m + j;
+                if(S & (1 << k)) vsted_a[i][j] = 1;
+                else vsted_b[j][i] = 1;
             }
         }
+        // for(int i = 0; i < n * m; i++) {
+        //     if(S & (1 << i)) {
+        //         vsted_a[n - (i / m) - 1][m - (i % m) - 1] = 1;
+        //     } else {
+        //         vsted_b[m - (i % m) - 1][n - (i / m) - 1] = 1;
+        //     }
+        // }
         // 만들어진 배열을 탐색
         mx = max(mx, solve(a, vsted_a, n, m) + solve(b, vsted_b, m, n));
     }   
