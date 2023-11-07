@@ -5,22 +5,19 @@ int n, m, mx;
 int a[4][4], b[4][4], vsted_a[4][4], vsted_b[4][4];
 string input;
 
-int solve(int c[4][4], int vsted[4][4], int n_size, int m_size) {
+int solve(int c[4][4], int vsted[4][4], int n_size, int m_size) { // 2차원 배열의 길이를 얻는 방법?
     int _sum = 0;
     for(int i = 0; i < n_size; i++) {
-        string temp;
-        for(int j = 0; j < m_size; j++) {
-            if(vsted[i][j]) temp += c[i][j];
-            else if(temp.size()) {
-                _sum += atoi(temp.c_str());
-                temp = "";
+        int temp = 0;
+        for(int j = 0; j < m_size; j++) { 
+            if(vsted[i][j]) temp = 10 * temp + c[i][j];
+            else {
+                _sum += temp;
+                temp = 0;
             }
         }
-        // cout << atoi(temp.c_str()) << '\n';
-        _sum += atoi(temp.c_str());
-        temp = "";
+        _sum += temp;
     }
-    // cout << _sum << ' ';
     return _sum;
 }
 
@@ -29,13 +26,13 @@ int main() {
     for(int i = 0; i < n; i++) {
         cin >> input;
         for(int j = 0; j < m; j++) {
-            a[i][j] = input[j];
+            a[i][j] = input[j] - '0';
             b[j][i] = a[i][j];
         }
     }
 
     for(int S = 0; S < (1 << n * m); S++) {
-        // 비트마스킹으로 배열 만들기
+        // 비트마스킹으로 배열 만들기. 대칭된 배열도 함께 만든다.
         memset(vsted_a, 0, sizeof(vsted_a));
         memset(vsted_b, 0, sizeof(vsted_b));
         for(int i = 0; i < n * m; i++) {
@@ -45,18 +42,8 @@ int main() {
                 vsted_b[m - (i % m) - 1][n - (i / m) - 1] = 1;
             }
         }
-        // for(int i = 0; i < n; i++) {
-        //     for(int j = 0; j < m; j++) {
-        //         cout << vsted_a[i][j];
-        //     } cout << '\n';
-        // }   cout << '\n';
-        // for(int i = 0; i < m; i++) {
-        //     for(int j = 0; j < n; j++) {
-        //         cout << vsted_b[i][j];
-        //     } cout << '\n';
-        // }   cout << '\n';
+        // 만들어진 배열을 탐색
         mx = max(mx, solve(a, vsted_a, n, m) + solve(b, vsted_b, m, n));
-        // cout << '\n';
     }   
     cout << mx << '\n';
     return 0;
