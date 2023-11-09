@@ -1,44 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, M, mx, _size;
-char a[24][24];
-int cnt[30], vsted[24][24];
-const int dy[] = {-1, 0, 1, 0};
+int R, C, ret;
+const int dy[] = {-1, 0, 1, 0}; 
 const int dx[] = {0, 1, 0, -1};
-string input;
+char a[24][24];
 
-void dfs(int y, int x) {
-  // cout << a[y][x];
-  mx = max(mx, _size);
-  vsted[y][x] = 1;
-  cnt[a[y][x] - 'A'] = 1;
-  for(int i = 0; i < 4; i++) {
-    int ny = y + dy[i];
-    int nx = x + dx[i];
-    if(ny < 0 || nx < 0 || ny >= N || nx >= M || vsted[ny][nx]) continue;
-      if(cnt[a[ny][nx] - 'A'] > 0) continue;
-      vsted[ny][nx] = 1;
-      cnt[a[ny][nx] - 'A'] = 1;
-      _size++;
-      dfs(ny, nx);
-      vsted[ny][nx] = 0;
-      cnt[a[ny][nx] - 'A'] = 0;
-      _size--;
-  }
+
+void go(int y, int x, int mask, int leng) {
+    ret = max(ret, leng);
+    for(int i = 0; i < 4; i++) {
+        int ny = y + dy[i]; int nx = x + dx[i];
+        if(ny < 0 || nx < 0 || ny >= R || nx >= C) continue;
+        int _next = (1 << (a[ny][nx] - 'A'));
+        if((mask & _next) == 0) {
+            go(ny, nx, mask | _next, leng + 1);
+        }
+    }
 }
 
 int main() {
-  // cout << 'z' - 'a' + 1;
-  cin >> N >> M;
-  for(int i = 0; i < N; i++) {
-    cin >> input;
-    for(int j = 0; j < M; j++) {
-      a[i][j] = input[j];
+    cin >> R >> C;
+    for(int i = 0; i < R; i++) {
+        for(int j = 0; j < C; j++) {
+            cin >> a[i][j]; 
+        }
     }
-  }
 
-  _size++;
-  dfs(0, 0);
-  cout << mx;
+    go(0, 0, 1 << (a[0][0] - 'A'), 1);
+    cout << ret << '\n';    
+    return 0;
 }
