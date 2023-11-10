@@ -2,24 +2,28 @@
 using namespace std;
 
 int n;
-vector<double> v;
+priority_queue<double> pq; // 가장 큰 값이 먼저 나온다.
+vector<double> ret;
 
 int main() {
     cin >> n;
-    double temp;
+    double score;
     for(int i = 0; i < n; i++) {
-        cin >> temp;
-        v.push_back(temp);
-        // v.push_back(temp);
+        cin >> score;
+        if(pq.size() == 7) {
+            pq.push(score);
+            pq.pop();
+        }
+        else pq.push(score);
     }
 
-    sort(v.begin(), v.end());
-    // cout.setf(ios::fixed);
     cout << fixed;
     cout.precision(3);
-    for(int i = 0; i < 7; i++) {
-        cout << v[i] << '\n';
-        // cout << (double)(v[i] / 1000) << '\n';
+    while(pq.size()) {
+        ret.push_back(pq.top());
+        pq.pop();
     }
+    reverse(ret.begin(), ret.end());
+    for(double a : ret) cout << a << '\n';
     return 0;
 }
